@@ -210,6 +210,13 @@ PublishScripts/
 *.nuget.props
 *.nuget.targets
 
+# Source Generated Files
+[Dd]ebug/**/[Gg]enerated/
+[Rr]elease/**/[Gg]enerated/
+**/*.g.cs
+**/*.g.i.cs
+**/*.generated.cs
+
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
