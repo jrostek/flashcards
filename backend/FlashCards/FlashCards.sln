@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashCards.Api", "FlashCards.Api\FlashCards.Api.csproj", "{50E247B0-2F0F-4A69-8CFF-264FC4D896B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50E247B0-2F0F-4A69-8CFF-264FC4D896B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E247B0-2F0F-4A69-8CFF-264FC4D896B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E247B0-2F0F-4A69-8CFF-264FC4D896B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E247B0-2F0F-4A69-8CFF-264FC4D896B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
