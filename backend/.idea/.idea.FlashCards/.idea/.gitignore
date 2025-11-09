@@ -2,10 +2,10 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
-/modules.xml
 /contentModel.xml
-/.idea.FlashCards.iml
+/modules.xml
 /projectSettingsUpdater.xml
+/.idea.FlashCards.iml
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files

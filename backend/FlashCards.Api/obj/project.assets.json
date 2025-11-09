@@ -487,11 +487,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/waldo/HomeProjects/flashcards/backend/FlashCards/FlashCards.Api/FlashCards.Api.csproj",
+      "projectUniqueName": "/home/waldo/HomeProjects/flashcards/backend/FlashCards.Api/FlashCards.Api.csproj",
       "projectName": "FlashCards.Api",
-      "projectPath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards/FlashCards.Api/FlashCards.Api.csproj",
+      "projectPath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards.Api/FlashCards.Api.csproj",
       "packagesPath": "/home/waldo/.nuget/packages/",
-      "outputPath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards/FlashCards.Api/obj/",
+      "outputPath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/waldo/.nuget/NuGet/NuGet.Config"

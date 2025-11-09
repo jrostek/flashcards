@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BbIJZtDomog=",
+  "dgSpecHash": "Cyyo8wknKU0=",
   "success": true,
-  "projectFilePath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards/FlashCards.Api/FlashCards.Api.csproj",
+  "projectFilePath": "/home/waldo/HomeProjects/flashcards/backend/FlashCards.Api/FlashCards.Api.csproj",
   "expectedPackageFiles": [
     "/home/waldo/.nuget/packages/microsoft.aspnetcore.openapi/8.0.20/microsoft.aspnetcore.openapi.8.0.20.nupkg.sha512",
     "/home/waldo/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
