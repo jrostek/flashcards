@@ -2,6 +2,22 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "Mediator.Abstractions/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Mediator.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Mediator.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/8.0.20": {
         "type": "package",
         "dependencies": {
@@ -30,6 +46,22 @@
         "buildMultiTargeting": {
           "buildMultiTargeting/Microsoft.Extensions.ApiDescription.Server.props": {},
           "buildMultiTargeting/Microsoft.Extensions.ApiDescription.Server.targets": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
         }
       },
       "Microsoft.OpenApi/1.6.14": {
@@ -107,10 +139,81 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Cards.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Cards.Contract": "1.0.0",
+          "Framework.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Cards.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Cards.Application.dll": {}
+        }
+      },
+      "Cards.Contract/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Framework.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Cards.Contract.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Cards.Contract.dll": {}
+        }
+      },
+      "Framework.Bootstrap/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Framework.Core": "1.0.0",
+          "Mediator.Abstractions": "3.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Framework.Bootstrap.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Framework.Bootstrap.dll": {}
+        }
+      },
+      "Framework.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Mediator.Abstractions": "3.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Framework.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Framework.Core.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "Mediator.Abstractions/3.0.1": {
+      "sha512": "WLWp7S7pt818wsK2IiFwGwvUhwq0E/7F0LkglDQKx+4rSzRWVKD3CHtaCi1fpeURH+v44ZPxaRVBCNV7uWOBYQ==",
+      "type": "package",
+      "path": "mediator.abstractions/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "lib/net8.0/Mediator.dll",
+        "lib/net8.0/Mediator.xml",
+        "lib/netstandard2.0/Mediator.dll",
+        "lib/netstandard2.0/Mediator.xml",
+        "mediator.abstractions.3.0.1.nupkg.sha512",
+        "mediator.abstractions.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/8.0.20": {
       "sha512": "IjWB1Q/Ar8fyfE3cKjybSlpAE++miAkDGbSup0WeFOtZn2vK+myK7RWDJlFdWICLLU50CmmLad91toIJNTrymQ==",
       "type": "package",
@@ -357,6 +460,38 @@
         "tools/netcoreapp2.1/System.Diagnostics.DiagnosticSource.dll"
       ]
     },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+      "sha512": "cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "Microsoft.OpenApi/1.6.14": {
       "sha512": "tTaBT8qjk3xINfESyOPE2rIellPvB7qpVqiWiyA/lACVvz+xOGiXhFUfohcx82NLbi5avzLW0lx+s6oAqQijfw==",
       "type": "package",
@@ -473,10 +608,32 @@
         "swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "Cards.Application/1.0.0": {
+      "type": "project",
+      "path": "../Domain/Cards.Application/Cards.Application.csproj",
+      "msbuildProject": "../Domain/Cards.Application/Cards.Application.csproj"
+    },
+    "Cards.Contract/1.0.0": {
+      "type": "project",
+      "path": "../Domain/Cards.Contract/Cards.Contract.csproj",
+      "msbuildProject": "../Domain/Cards.Contract/Cards.Contract.csproj"
+    },
+    "Framework.Bootstrap/1.0.0": {
+      "type": "project",
+      "path": "../Framework/Framework.Bootstrap/Framework.Bootstrap.csproj",
+      "msbuildProject": "../Framework/Framework.Bootstrap/Framework.Bootstrap.csproj"
+    },
+    "Framework.Core/1.0.0": {
+      "type": "project",
+      "path": "../Framework/Framework.Core/Framework.Core.csproj",
+      "msbuildProject": "../Framework/Framework.Core/Framework.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Cards.Application >= 1.0.0",
+      "Framework.Bootstrap >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.20",
       "Swashbuckle.AspNetCore >= 6.6.2"
     ]
@@ -505,7 +662,14 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/waldo/HomeProjects/flashcards/backend/Domain/Cards.Application/Cards.Application.csproj": {
+              "projectPath": "/home/waldo/HomeProjects/flashcards/backend/Domain/Cards.Application/Cards.Application.csproj"
+            },
+            "/home/waldo/HomeProjects/flashcards/backend/Framework/Framework.Bootstrap/Framework.Bootstrap.csproj": {
+              "projectPath": "/home/waldo/HomeProjects/flashcards/backend/Framework/Framework.Bootstrap/Framework.Bootstrap.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
