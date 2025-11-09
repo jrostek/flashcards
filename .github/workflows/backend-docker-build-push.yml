@@ -1,0 +1,86 @@
+name: Create and push backend api docker image
+
+on:
+  push:
+    branches:
+      - master
+      - release/**
+    paths:
+      - backend/**
+      - .github/workflows/backend-docker-build-push.yml
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-backend
+
+jobs:
+  build-images:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.1.11
+        with:
+          versionSpec: "6.0.x"
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Get Version
+        id: version_step
+        uses: gittools/actions/gitversion/execute@v3.1.11
+        with:
+          useConfigFile: true
+          configFilePath: ./GitVersion.yaml
+          updateAssemblyInfo: true
+          updateAssemblyInfoFilename: "./backend/FlashCards.Api/FlashCards.Api.csproj"
+          disableShallowCloneCheck: true
+
+      - name: Set Version in API
+        run: |
+          cd backend
+          dotnet-gitversion /updateprojectfiles
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend/
+          file: ./backend/FlashCards.Api/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: "Version=${{ steps.version_step.outputs.fullSemVer }}"
+
+      - uses: thejeff77/action-push-tag@v1.0.0
+        with:
+          tag: "v${{ steps.version_step.outputs.fullSemVer }}"
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
