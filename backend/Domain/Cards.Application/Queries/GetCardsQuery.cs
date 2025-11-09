@@ -1,5 +1,5 @@
 using Framework.Core.CQRS;
 
-namespace Cards.Contract.Queries;
+namespace Cards.Application.Queries;
 
 public record GetCardsQuery : IQuery<string>;

@@ -1,5 +1,3 @@
-using Cards.Application;
-
 using FlashCards.Api.Endpoints;
 
 using Framework.Bootstrap;
@@ -11,7 +9,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddFramework(typeof(UserDomainTarget));
+builder.Services.AddFramework();
 
 WebApplication app = builder.Build();
 

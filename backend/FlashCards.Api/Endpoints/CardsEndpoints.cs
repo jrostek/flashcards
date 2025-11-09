@@ -1,4 +1,4 @@
-using Cards.Contract.Queries;
+using Cards.Application.Queries;
 
 using Framework.Core.CQRS;
 
