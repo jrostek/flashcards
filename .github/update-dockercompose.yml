@@ -1,0 +1,21 @@
+name: Update docker-compose
+
+on:
+  push:
+    paths:
+      - docker-compose.yaml
+    branches:
+      - main
+
+jobs:
+  rerun-docker-compose:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run docker-compose
+        env:
+          Sa_Password: ${{ secrets.Sa_Password }}
+        run: docker compose up -d
