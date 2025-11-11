@@ -1,0 +1,52 @@
+services:
+  # update docker images in case new version available
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  backend:
+    image: ghcr.io/jrostek/flashcards-backend:main
+    build:
+      context: ./backend
+      dockerfile: FlashCards.Api/Dockerfile
+    environment:
+      DB_PASSWORD: ${Sa_Password}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${Sa_Password}
+      - MSSQL_PID=Developer
+    user: root
+    ports:
+      - 1433:1433
+    volumes:
+      - sql_data:/var/opt/mssql
+    restart: always
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P ${Sa_Password} -Q 'SELECT 1'",
+        ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+volumes:
+  sql_data:
