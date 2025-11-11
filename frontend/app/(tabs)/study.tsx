@@ -26,7 +26,7 @@ export default function Study() {
   const handleReject = () => {
     goToNextCard();
   };
-  
+
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -42,13 +42,13 @@ export default function Study() {
           style={[styles.button, styles.rejectButton]}
           onPress={handleReject}
         >
-          <Animated.Text>Reject</Animated.Text>
+          <Animated.Text style={styles.buttonText}>Reject</Animated.Text>
         </Pressable>
         <Pressable
           style={[styles.button, styles.acceptButton]}
           onPress={handleAccept}
         >
-          <Animated.Text>Accept</Animated.Text>
+          <Animated.Text style={styles.buttonText}>Accept</Animated.Text>
         </Pressable>
       </Animated.View>
     </SafeAreaView>
@@ -72,11 +72,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: 300,
-    marginTop: 20,
+    marginTop: 30,
   },
   button: {
-    width: 60,
-    padding: 5,
+    width: 80,
+    padding: 10,
+    borderRadius: 25
   },
   acceptButton: {
     backgroundColor: "lightgreen",
@@ -84,4 +85,8 @@ const styles = StyleSheet.create({
   rejectButton: {
     backgroundColor: "lightcoral",
   },
+  buttonText: {
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
 });
