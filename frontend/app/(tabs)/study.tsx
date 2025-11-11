@@ -1,12 +1,32 @@
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import { FlashCard } from "@/components/flashcard/flashcard";
 import Animated from "react-native-reanimated";
 import { flashcards } from "@/temp/mock-data";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 
 export default function Study() {
-  const { question, answer, description } = flashcards[0];
+  const [currentFlashcard, setCurrentFlashcard] = useState(0);
+
+  const { question, answer, description } = flashcards[currentFlashcard];
+
+  const goToNextCard = () => {
+    const nextIndex = currentFlashcard + 1;
+    if (nextIndex >= flashcards.length) {
+      setCurrentFlashcard(0);
+    } else {
+      setCurrentFlashcard(nextIndex);
+    }
+  }
+
+  const handleAccept = () => {
+    goToNextCard();
+  };
+  const handleReject = () => {
+    goToNextCard();
+  };
+  
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -17,6 +37,20 @@ export default function Study() {
         description={description}
       />
       <Animated.View style={styles.bottomCards}></Animated.View>
+      <Animated.View style={styles.buttonContainer}>
+        <Pressable
+          style={[styles.button, styles.rejectButton]}
+          onPress={handleReject}
+        >
+          <Animated.Text>Reject</Animated.Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button, styles.acceptButton]}
+          onPress={handleAccept}
+        >
+          <Animated.Text>Accept</Animated.Text>
+        </Pressable>
+      </Animated.View>
     </SafeAreaView>
   );
 }
@@ -32,5 +66,22 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
     borderLeftColor: "transparent",
     borderTopColor: "lightblue",
-  }
+  },
+  buttonContainer: {
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
+    width: 300,
+    marginTop: 20,
+  },
+  button: {
+    width: 60,
+    padding: 5,
+  },
+  acceptButton: {
+    backgroundColor: "lightgreen",
+  },
+  rejectButton: {
+    backgroundColor: "lightcoral",
+  },
 });
