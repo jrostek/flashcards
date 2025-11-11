@@ -1,13 +1,14 @@
 import { Pressable, StyleSheet } from "react-native";
 
 import { FlashCard } from "@/components/flashcard/flashcard";
-import Animated from "react-native-reanimated";
+import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import { flashcards } from "@/temp/mock-data";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
 export default function Study() {
   const [currentFlashcard, setCurrentFlashcard] = useState(0);
+  const translateX = useSharedValue(0);
 
   const { question, answer, description } = flashcards[currentFlashcard];
 
@@ -18,12 +19,14 @@ export default function Study() {
     } else {
       setCurrentFlashcard(nextIndex);
     }
-  }
+  };
 
   const handleAccept = () => {
+    translateX.value = withSpring(translateX.value + 50);
     goToNextCard();
   };
   const handleReject = () => {
+    translateX.value = withSpring(translateX.value - 50);
     goToNextCard();
   };
 
@@ -31,11 +34,13 @@ export default function Study() {
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
-      <FlashCard
-        question={question}
-        answer={answer}
-        description={description}
-      />
+      <Animated.View style={{ transform: [{ translateX }] }}>
+        <FlashCard
+          question={question}
+          answer={answer}
+          description={description}
+        />
+      </Animated.View>
       <Animated.View style={styles.bottomCards}></Animated.View>
       <Animated.View style={styles.buttonContainer}>
         <Pressable
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
   button: {
     width: 80,
     padding: 10,
-    borderRadius: 25
+    borderRadius: 25,
   },
   acceptButton: {
     backgroundColor: "lightgreen",
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "lightcoral",
   },
   buttonText: {
-    textAlign: 'center',
-    fontWeight: 'bold'
-  }
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 });
