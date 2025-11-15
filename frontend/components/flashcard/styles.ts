@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   frontCard: {
-    backgroundColor: "lightpink",
     justifyContent: "center",
     alignItems: "center",
     width: 300,

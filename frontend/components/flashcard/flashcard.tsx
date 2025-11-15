@@ -3,15 +3,14 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 import { CardContent } from "./cardcontent";
+import { Flashcard } from "@/constants/types";
 
 export const FlashCard = ({
-  question,
-  answer,
-  description,
+  flashcard,
+  index
 }: {
-  question: string;
-  answer: string;
-  description: string;
+  flashcard: Flashcard,
+  index: number
 }) => {
   const showAnswer = useSharedValue(false);
 
@@ -23,9 +22,8 @@ export const FlashCard = ({
     <Pressable onPress={handlePress} style={{ backgroundColor: "white" }}>
       <CardContent
         showAnswer={showAnswer}
-        question={question}
-        answer={answer}
-        description={description}
+        flashcard={flashcard}
+        index={index}
       />
     </Pressable>
   );
