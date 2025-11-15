@@ -2,19 +2,18 @@ import Animated, { interpolate, SharedValue, useAnimatedStyle, withTiming } from
 import { flipCardStyles, styles } from "./styles";
 import { Front } from "./front";
 import { Back } from "./back";
+import { Flashcard } from "@/constants/types";
 
 type FlipCardProps = {
   showAnswer: SharedValue<boolean>;
-  question: string;
-  answer: string;
-  description: string;
+  flashcard: Flashcard;
+  index: number;
 };
 
 export const CardContent = ({
   showAnswer,
-  question,
-  answer,
-  description
+  flashcard,
+  index,
 }: FlipCardProps) => {
 const duration = 500;
   const regularCardAnimatedStyle = useAnimatedStyle(() => {
@@ -48,7 +47,7 @@ const duration = 500;
           regularCardAnimatedStyle,
         ]}
       >
-        <Front question={question} />
+        <Front question={flashcard.question} index={index} />
       </Animated.View>
       <Animated.View
         style={[
@@ -57,7 +56,7 @@ const duration = 500;
           flippedCardAnimatedStyle,
         ]}
       >
-        <Back answer={answer} description={description} />
+        <Back answer={flashcard.answer} description={flashcard.description} />
       </Animated.View>
     </Animated.View>
   );

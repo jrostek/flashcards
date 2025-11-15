@@ -7,18 +7,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
 export default function Study() {
-  const [currentFlashcard, setCurrentFlashcard] = useState(0);
   const translateX = useSharedValue(0);
-
-  const { question, answer, description } = flashcards[currentFlashcard];
+  const [flashcardsToStudy, setFlashcardsToStudy] = useState(flashcards);
 
   const goToNextCard = () => {
-    const nextIndex = currentFlashcard + 1;
-    if (nextIndex >= flashcards.length) {
-      setCurrentFlashcard(0);
-    } else {
-      setCurrentFlashcard(nextIndex);
-    }
+    const leftToStudy = flashcardsToStudy.slice(0, -1);
+    setFlashcardsToStudy(leftToStudy);
   };
 
   const handleAccept = () => {
@@ -29,19 +23,29 @@ export default function Study() {
     translateX.value = withSpring(translateX.value - 50);
     goToNextCard();
   };
+  const handleReset = () => {
+    setFlashcardsToStudy(flashcards);
+  };
 
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
-      <Animated.View style={{ transform: [{ translateX }] }}>
-        <FlashCard
-          question={question}
-          answer={answer}
-          description={description}
-        />
+      {
+        //FIXME lots of warning from reanimated
+      }
+      <Animated.View style={styles.buttonContainer}>
+        {flashcardsToStudy.map((value, index) => {
+          console.log("Rendering card", index, value.question);
+          return (
+          <Animated.View
+            style={[styles.cardInStack, {marginBottom: index * 30, marginRight: index * 10}]}
+            key={value.id}
+          >
+            <FlashCard flashcard={value} index={index}/>
+          </Animated.View>
+        )})}
       </Animated.View>
-      <Animated.View style={styles.bottomCards}></Animated.View>
       <Animated.View style={styles.buttonContainer}>
         <Pressable
           style={[styles.button, styles.rejectButton]}
@@ -55,29 +59,24 @@ export default function Study() {
         >
           <Animated.Text style={styles.buttonText}>Accept</Animated.Text>
         </Pressable>
+        <Pressable
+          style={[styles.button, styles.resetButton]}
+          onPress={handleReset}
+        >
+          <Animated.Text style={styles.buttonText}>Reset</Animated.Text>
+        </Pressable>
       </Animated.View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  bottomCards: {
-    width: 0,
-    height: 0,
-    borderRightWidth: 30,
-    borderTopWidth: 30,
-    borderLeftWidth: 270,
-    borderRightColor: "transparent",
-    borderBottomColor: "transparent",
-    borderLeftColor: "transparent",
-    borderTopColor: "lightblue",
-  },
   buttonContainer: {
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
     width: 300,
-    marginTop: 30,
+    marginTop: 120,
   },
   button: {
     width: 80,
@@ -90,8 +89,14 @@ const styles = StyleSheet.create({
   rejectButton: {
     backgroundColor: "lightcoral",
   },
+  resetButton: {
+    backgroundColor: "lightblue",
+  },
   buttonText: {
     textAlign: "center",
     fontWeight: "bold",
+  },
+  cardInStack: {
+    position: "absolute",
   },
 });
