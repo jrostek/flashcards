@@ -4,10 +4,10 @@ import { FlashCard } from "@/components/flashcard/flashcard";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import { flashcards } from "@/temp/mock-data";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { ModalComponent } from "@/components/modal";
 
 export default function Study() {
-  const translateX = useSharedValue(0);
+  const [modalVisible, setModalVisible] = useState(false);
   const [flashcardsToStudy, setFlashcardsToStudy] = useState(flashcards);
 
   const goToNextCard = () => {
@@ -66,6 +66,7 @@ export default function Study() {
           <Animated.Text style={styles.buttonText}>Reset</Animated.Text>
         </Pressable>
       </Animated.View>
+      <ModalComponent visible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 }
