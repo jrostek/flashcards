@@ -19,6 +19,18 @@ export const flashcards: Flashcard[] = [
         answer: "to speak",
         description: "Verb, meaning to communicate verbally. Example: Kun je Engels spreken? (Can you speak English?)",
     },
+    {
+        id: 4,
+        question: "de tafel",
+        answer: "the table",
+        description: "Noun, meaning a piece of furniture with a flat top. Example: De borden staan op de tafel. (The plates are on the table.)",
+    },
+    {
+        id: 5,
+        question: "lopen",
+        answer: "to walk",
+        description: "Verb, meaning to move on foot at a moderate pace. Example: Ik loop elke ochtend in het park. (I walk in the park every morning.)",
+    }
 ];
 
 export const users: User[] = [
