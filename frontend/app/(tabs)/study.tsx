@@ -1,50 +1,76 @@
 import { Pressable, StyleSheet } from "react-native";
 
 import { FlashCard } from "@/components/flashcard/flashcard";
-import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, {
+  RollOutLeft,
+  RollOutRight,
+  useSharedValue,
+} from "react-native-reanimated";
 import { flashcards } from "@/temp/mock-data";
 import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 import { ModalComponent } from "@/components/modal";
 
 export default function Study() {
+  const cardsToStudy = flashcards.slice();
+  const [currentCardIdx, setCurrentCardIdx] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [flashcardsToStudy, setFlashcardsToStudy] = useState(flashcards);
+  const rollOutLeftAnimation = new RollOutLeft().build();
+  const rollOutRightAnimation = new RollOutRight().build();
+  const exitDirection = useSharedValue("left");
+
+  const cardsToRender = cardsToStudy.slice(currentCardIdx, currentCardIdx + 3);
 
   const goToNextCard = () => {
-    const leftToStudy = flashcardsToStudy.slice(0, -1);
-    setFlashcardsToStudy(leftToStudy);
+    const nextIdx = currentCardIdx + 1;
+    if (nextIdx >= flashcards.length) {
+      setCurrentCardIdx(0);
+      setModalVisible(true);
+    } else {
+      setCurrentCardIdx(nextIdx);
+    }
+  };
+
+  const CustomExitingAnimation = (values: any) => {
+    "worklet";
+
+    return exitDirection.value === "left"
+      ? rollOutLeftAnimation(values)
+      : rollOutRightAnimation(values);
   };
 
   const handleAccept = () => {
-    translateX.value = withSpring(translateX.value + 50);
+    exitDirection.value = "right";
     goToNextCard();
   };
   const handleReject = () => {
-    translateX.value = withSpring(translateX.value - 50);
+    exitDirection.value = "left";
     goToNextCard();
   };
+
   const handleReset = () => {
-    setFlashcardsToStudy(flashcards);
+    setCurrentCardIdx(0);
   };
 
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
-      {
-        //FIXME lots of warning from reanimated
-      }
       <Animated.View style={styles.buttonContainer}>
-        {flashcardsToStudy.map((value, index) => {
-          console.log("Rendering card", index, value.question);
+        {cardsToRender.reverse().map((value, index) => {
           return (
-          <Animated.View
-            style={[styles.cardInStack, {marginBottom: index * 30, marginRight: index * 10}]}
-            key={value.id}
-          >
-            <FlashCard flashcard={value} index={index}/>
-          </Animated.View>
-        )})}
+            <Animated.View
+              style={[
+                styles.cardInStack,
+                { marginBottom: index * 30, marginRight: index * 10 },
+              ]}
+              exiting={CustomExitingAnimation}
+              key={value.id}
+            >
+              <FlashCard flashcard={value} index={index} />
+            </Animated.View>
+          );
+        })}
       </Animated.View>
       <Animated.View style={styles.buttonContainer}>
         <Pressable
