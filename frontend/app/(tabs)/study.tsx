@@ -31,6 +31,7 @@ export default function Study() {
     }
   };
 
+  // Conditional exit animation: https://github.com/software-mansion/react-native-reanimated/issues/3662#issuecomment-1369107481
   const CustomExitingAnimation = (values: any) => {
     "worklet";
 
