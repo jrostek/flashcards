@@ -1,4 +1,17 @@
 services:
+  # routing
+  reverse-proxy:
+    image: traefik:latest
+    networks:
+      - proxy
+    ports:
+      - "80:80"
+      - "433:433"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+
   # update docker images in case new version available
   watchtower:
     image: containrrr/watchtower
@@ -19,11 +32,13 @@ services:
       dockerfile: FlashCards.Api/Dockerfile
     environment:
       DB_PASSWORD: ${Sa_Password}
+    networks:
+      - proxy
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-    deploy:
-      mode: replicated
-      replicas: 2
+      - com.centurylinklabs.watchtower.enable=true
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=PathPrefix(`/api`) || PathPrefix(`/swagger`)
+      - traefik.http.routers.backend.entrypoints=web
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -50,3 +65,7 @@ services:
 
 volumes:
   sql_data:
+
+networks:
+  proxy:
+    name: proxy
