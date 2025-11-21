@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Adapters/" />
+  <Folder Name="/Clients/">
+    <Project Path="FlashCards.Api/FlashCards.Api.csproj" />
+  </Folder>
+  <Folder Name="/Domain/" />
+  <Folder Name="/Domain/Cards/">
+    <Project Path="Domain/Cards.Application/Cards.Application.csproj" />
+  </Folder>
+  <Folder Name="/Framework/">
+    <Project Path="Framework/Framework.Bootstrap/Framework.Bootstrap.csproj" />
+    <Project Path="Framework/Framework.Core/Framework.Core.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="global.json" />
+  </Folder>
+</Solution>

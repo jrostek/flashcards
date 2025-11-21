@@ -4,8 +4,6 @@ using Framework.Bootstrap;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -13,15 +11,17 @@ builder.Services.AddFramework();
 
 WebApplication app = builder.Build();
 
+app.UseHttpsRedirection();
+app.UsePathBase("/api");
+app.UseRouting();
+
+CardsEndpoints.Configure(app);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-CardsEndpoints.Configure(app);
-
-app.UseHttpsRedirection();
 
 app.Run();
