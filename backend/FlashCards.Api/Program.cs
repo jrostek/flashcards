@@ -1,27 +1,50 @@
-using FlashCards.Api.Endpoints;
+using FlashCards.Infrastructure;
+using FlashCards.Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
-using Framework.Bootstrap;
+var builder = WebApplication.CreateBuilder(args);
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOpenApi();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// EF configuration
+builder.Services.AddDbContextPool<FlashCardsContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("postgres-db"),
+        o => o.MigrationsAssembly("FlashCards.Migrator")));
 
-builder.Services.AddFramework();
+var app = builder.Build();
 
-WebApplication app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
-CardsEndpoints.Configure(app);
-
 app.UseHttpsRedirection();
+
+app.MapGet("/health", () => "ok");
+
+app.MapGet("/users", async ([FromServices] FlashCardsContext dbContext) =>
+await dbContext.Users.Select(u => u.Id).ToArrayAsync());
+
+app.MapGet("/users/{userId:guid}",
+    async ([FromRoute] Guid userId, [FromServices] FlashCardsContext dbContext) =>
+    await dbContext.Users.SingleAsync(u => u.Id == userId));
+
+app.MapPost("/users", async ([FromBody] UserDto userDto, [FromServices] FlashCardsContext dbContext) =>
+{
+    var user = new UserDto { Email = userDto.Email, Name = userDto.Name };
+    dbContext.Users.Add(user);
+    await dbContext.SaveChangesAsync();
+    return Results.Created($"/users/{user.Id}", user);
+});
+
+app.MapDelete("/users/{userId:guid}", async ([FromRoute] Guid userId, [FromServices] FlashCardsContext dbContext) =>
+{
+    var user = await dbContext.Users.SingleAsync(u => u.Id == userId);
+    dbContext.Users.Remove(user);
+    await dbContext.SaveChangesAsync();
+});
 
 app.Run();

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="AppHost/AppHost.csproj" />
+  <Project Path="FlashCards.Api\FlashCards.Api.csproj" />
+  <Project Path="FlashCards.Infrastructure/FlashCards.Infrastructure.csproj" />
+  <Project Path="FlashCards.Migrator/FlashCards.Migrator.csproj" />
+</Solution>
