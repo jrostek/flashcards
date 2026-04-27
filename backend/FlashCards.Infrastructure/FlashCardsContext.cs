@@ -5,5 +5,11 @@ namespace FlashCards.Infrastructure;
 
 public class FlashCardsContext(DbContextOptions<FlashCardsContext> options) : DbContext(options)
 {
-    public required DbSet<UserDto> Users { get; set; }
+    public required DbSet<User> Users { get; set; }
+    public required DbSet<FlashCard> FlashCards { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FlashCardsContext).Assembly);
+    }
 }

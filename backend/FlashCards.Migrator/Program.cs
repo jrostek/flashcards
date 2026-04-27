@@ -9,8 +9,11 @@ var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddHostedService<Migrator>();
 builder.Services.AddDbContextPool<FlashCardsContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("postgres-db"),
-        o => o.MigrationsAssembly("FlashCards.Migrator")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("postgres-db"),
+        o => o.MigrationsAssembly("FlashCards.Migrator")
+    )
+);
 
 var host = builder.Build();
 await host.StartAsync();
