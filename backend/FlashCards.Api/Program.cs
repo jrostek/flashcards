@@ -1,27 +1,36 @@
+using FlashCards.Api.Aspire;
 using FlashCards.Api.Endpoints;
+using FlashCards.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
-using Framework.Bootstrap;
+var builder = WebApplication.CreateBuilder(args);
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOpenApi();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// EF configuration
+builder.Services.AddDbContextPool<FlashCardsContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("postgres-db"),
+        o => o.MigrationsAssembly("FlashCards.Migrator")
+    )
+);
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<FlashCardsContext>();
 
-builder.Services.AddFramework();
+builder.Services.AddEndpoints();
+builder.Services.AddAspireOpenTelemetry();
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
-CardsEndpoints.Configure(app);
-
 app.UseHttpsRedirection();
+
+app.MapEndpoints();
 
 app.Run();
